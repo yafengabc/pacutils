@@ -1,0 +1,32 @@
+#!/usr/bin/env python 
+import re
+fi=open('/var/log/pacman.log')
+li=[]
+li2=[]
+for i in fi.readlines():
+    i=i.replace('[','').replace(']','').split()
+    if re.match(r'\d\d\d\d-\d\d-\d\d',i[0])!=None:
+        li2.append(i)
+fi.close()
+date=""
+for i in li2:
+    if date!=i[0]:
+        date=i[0]
+        print('\033[1;31;40m'+i[0]+':')
+        i.remove(i[0])
+        i.remove(i[0])
+        i.remove(i[0])
+    else:
+        i.remove(i[0])
+        i.remove(i[0])
+        i.remove(i[0])
+    try:
+        if i[0]=='upgraded':
+            print('\033[1;32;40m'+'==>'+str(i).replace("'",'').replace('[','').replace(']',''))
+        if i[0]=='removed':
+            print('\033[1;33;40m'+'==>'+str(i).replace("'",'').replace('[','').replace(']',''))
+        if i[0]=='installed':
+            print('\033[1;34;40m'+'==>'+str(i).replace("'",'').replace('[','').replace(']',''))
+    except:
+        pass
+print('\033[0m')
